@@ -1,0 +1,337 @@
+:root {
+  /* ---------- Warm light base (Notion-ish) ---------- */
+  --bg: #fbfbfc;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+
+  /* Pastel surface + borders */
+  --surface: #fcfcff;
+  --border: rgba(17, 24, 39, 0.08);
+  --border-soft: rgba(17, 24, 39, 0.06);
+  --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.04);
+  --shadow-md: 0 12px 34px rgba(17, 24, 39, 0.08);
+
+  /* ---------- Accent defaults (indigo pastel) ---------- */
+  --accent: #6366f1;
+  --accent-soft: rgba(99, 102, 241, 0.10);
+  --accent-border: rgba(99, 102, 241, 0.22);
+  --accent-focus: rgba(99, 102, 241, 0.18);
+
+  /* Success (optional) */
+  --success: #22c55e;
+
+  /* ---------- Density (defaults = comfy) ---------- */
+  --pad-app-y: 28px;
+  --pad-app-x: 20px;
+
+  --radius-card: 16px;
+  --radius-control: 12px;
+
+  --pad-control-y: 10px;
+  --pad-control-x: 14px;
+
+  --pad-cell-y: 12px;
+  --pad-cell-x: 14px;
+
+  --font-size: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+
+  --table-min: 980px;
+}
+
+/* ---------- Accent switcher (set on <html data-accent="...">) ---------- */
+html[data-accent="indigo"] {
+  --accent: #6366f1;
+  --accent-soft: rgba(99, 102, 241, 0.10);
+  --accent-border: rgba(99, 102, 241, 0.22);
+  --accent-focus: rgba(99, 102, 241, 0.18);
+}
+
+html[data-accent="mint"] {
+  --accent: #10b981;
+  --accent-soft: rgba(16, 185, 129, 0.10);
+  --accent-border: rgba(16, 185, 129, 0.22);
+  --accent-focus: rgba(16, 185, 129, 0.18);
+}
+
+html[data-accent="peach"] {
+  --accent: #fb7185;
+  --accent-soft: rgba(251, 113, 133, 0.10);
+  --accent-border: rgba(251, 113, 133, 0.22);
+  --accent-focus: rgba(251, 113, 133, 0.18);
+}
+
+html[data-accent="sky"] {
+  --accent: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.10);
+  --accent-border: rgba(56, 189, 248, 0.22);
+  --accent-focus: rgba(56, 189, 248, 0.18);
+}
+
+/* ---------- Density modes (set on <html data-density="compact|cozy|comfy">) ---------- */
+html[data-density="compact"] {
+  --pad-app-y: 20px;
+  --pad-app-x: 16px;
+
+  --radius-card: 14px;
+  --radius-control: 11px;
+
+  --pad-control-y: 8px;
+  --pad-control-x: 12px;
+
+  --pad-cell-y: 8px;
+  --pad-cell-x: 12px;
+
+  --font-size: 13px;
+  --font-size-sm: 12px;
+  --font-size-xs: 11px;
+
+  --table-min: 920px;
+}
+
+html[data-density="cozy"] {
+  --pad-app-y: 24px;
+  --pad-app-x: 18px;
+
+  --pad-control-y: 9px;
+  --pad-control-x: 13px;
+
+  --pad-cell-y: 10px;
+  --pad-cell-x: 13px;
+
+  --font-size: 14px;
+  --font-size-sm: 13px;
+  --font-size-xs: 12px;
+}
+
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, Segoe UI, Roboto,
+    Arial;
+  font-size: var(--font-size);
+}
+
+/* ---------- Layout ---------- */
+.app {
+  min-height: 100%;
+  padding: var(--pad-app-y) var(--pad-app-x) 48px;
+}
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.subtitle {
+  margin: 6px 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--muted);
+}
+.mono {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+}
+
+/* ---------- Card ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: var(--pad-control-y) var(--pad-control-x);
+  border-radius: var(--radius-control);
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btnPrimary {
+  background: var(--accent);
+  color: white;
+  border-color: rgba(0, 0, 0, 0);
+}
+.btnPrimary:hover {
+  filter: brightness(0.98);
+}
+
+/* ---------- Inputs ---------- */
+.input {
+  width: 100%;
+  padding: calc(var(--pad-control-y) + 2px) var(--pad-control-x);
+  border-radius: var(--radius-control);
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  font-size: var(--font-size-sm);
+  outline: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+.input::placeholder {
+  color: #9ca3af;
+}
+.input:focus {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 3px var(--accent-focus);
+}
+
+/* ---------- Table ---------- */
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: var(--table-min);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.th {
+  position: sticky;
+  top: 0;
+  background: #fafafa;
+  border-bottom: 1px solid var(--border);
+  padding: var(--pad-cell-y) var(--pad-cell-x);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+}
+
+/* Softer separators */
+.td {
+  border-bottom: 1px solid var(--border-soft);
+  font-size: var(--font-size-sm);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* For clickable-cell approach */
+.table td {
+  padding: 0;
+}
+
+.cellLink {
+  display: block;
+  padding: var(--pad-cell-y) var(--pad-cell-x);
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 140ms ease;
+}
+
+/* Calm hover (pastel) */
+.row:hover .cellLink {
+  background: var(--accent-soft);
+}
+
+/* Optional: subtle focus ring for keyboard nav */
+.cellLink:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--accent-border);
+}
+
+/* ---------- Pills ---------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: var(--font-size-xs);
+  color: var(--muted);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Detail fields ---------- */
+.fields {
+  padding: 20px;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-soft);
+}
+.field:first-child {
+  border-top: none;
+}
+
+.fieldLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fieldValue {
+  font-size: var(--font-size-sm);
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---------- Code / JSON ---------- */
+.pre {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--border);
+  background: #f9fafb;
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-x: auto;
+}
