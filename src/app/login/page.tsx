@@ -15,20 +15,19 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
 
+    // Simulate network delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 500))
+
     try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      })
+      const adminUser = process.env.NEXT_PUBLIC_ADMIN_USERNAME
+      const adminPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD
 
-      const data = await res.json()
-
-      if (res.ok && data.success) {
+      if (username === adminUser && password === adminPass) {
+        localStorage.setItem('is_admin_authenticated', 'true')
         router.push('/')
         router.refresh()
       } else {
-        setError(data.message || 'Invalid credentials')
+        setError('Invalid credentials')
         setLoading(false)
       }
     } catch {
