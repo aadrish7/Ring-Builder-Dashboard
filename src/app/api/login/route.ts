@@ -8,6 +8,13 @@ export async function POST(request: Request) {
     const adminUser = process.env.ADMIN_USERNAME
     const adminPass = process.env.ADMIN_PASSWORD
 
+    console.log('--- Login Attempt ---')
+    console.log('Received Username:', username)
+    console.log('Received Password:', password)
+    console.log('Env Username:', adminUser)
+    console.log('Env Password:', adminPass)
+    console.log('Match Result:', username === adminUser && password === adminPass)
+
     if (username === adminUser && password === adminPass) {
       const response = NextResponse.json({ success: true })
       
