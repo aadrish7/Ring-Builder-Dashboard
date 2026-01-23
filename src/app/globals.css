@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   /* ---------- Warm light base (Notion-ish) ---------- */
   --bg: #fbfbfc;
