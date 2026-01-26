@@ -37,7 +37,9 @@ async function fetchLead(id: string) {
 
 function fmtDate(iso: string) {
   const d = new Date(iso);
-  return isNaN(d.getTime()) ? iso : d.toLocaleString();
+  return isNaN(d.getTime())
+    ? iso
+    : d.toLocaleString("en-US", { timeZone: "America/Chicago" });
 }
 
 function Field({ label, value }: { label: string; value: any }) {

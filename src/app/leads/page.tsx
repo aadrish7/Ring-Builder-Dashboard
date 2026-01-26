@@ -44,7 +44,9 @@ async function fetchLeads(params: { q?: string; limit?: number }) {
 
 function fmtDate(iso: string) {
   const d = new Date(iso);
-  return isNaN(d.getTime()) ? iso : d.toLocaleString();
+  return isNaN(d.getTime())
+    ? iso
+    : d.toLocaleString("en-US", { timeZone: "America/Chicago" });
 }
 
 function CellLink({
