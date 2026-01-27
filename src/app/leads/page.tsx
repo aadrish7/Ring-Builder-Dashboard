@@ -10,11 +10,15 @@ type Lead = {
   ring_model_id: string | null;
   ring_name: string | null;
   diamond_cut: string | null;
+  diamond_info: any;
   metal_color: string | null;
   price_setting: string | null;
   total_price: string | number | null;
   created_at: string;
   updated_at: string;
+  origin: string;
+  consent: string | null;
+  smsConsent: string | null;
 };
 
 type LeadsResponse = {
@@ -78,7 +82,7 @@ export default async function LeadsPage({
   const q = sp?.q ?? "";
 
   const data = await fetchLeads({ q, limit: 50 });
-
+// console.log(data)
   return (
     <main className="app">
       <div className="container">
@@ -144,6 +148,10 @@ export default async function LeadsPage({
                     "Ring Name",
                     "Metal",
                     "Total Price",
+                    "Origin",
+                    "Lead Type",
+                    "Consent",
+                    "SMS Consent",
                     "ID",
                   ].map((h) => (
                     <th key={h} className="th">
@@ -192,6 +200,18 @@ export default async function LeadsPage({
                         </td>
                         <td>
                           <CellLink href={href}>{lead.total_price ?? "-"}</CellLink>
+                        </td>
+                        <td>
+                          <CellLink href={href}>{lead.origin ?? "-"}</CellLink>
+                        </td>
+                        <td>
+                          <CellLink href={href}>{lead.diamond_info != null ? "Complete" : "Intermediate"}</CellLink>
+                        </td>
+                        <td>
+                          <CellLink href={href}>{lead.consent ?? "-"}</CellLink>
+                        </td>
+                        <td>
+                          <CellLink href={href}>{lead.smsConsent ?? "-"}</CellLink>
                         </td>
                         <td>
                           <CellLink href={href} mono>

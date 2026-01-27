@@ -17,6 +17,9 @@ type Lead = {
   total_price: string | number | null;
   created_at: string;
   updated_at: string;
+  origin: string;
+  consent: string | null;
+  smsConsent: string | null;
 };
 
 async function fetchLead(id: string) {
@@ -75,9 +78,7 @@ export default async function LeadDetailPage({
             ← Back
           </Link>
         </header>
-        <Viewer3DComponent
-          combinedChoice={lead.ring_model_id || ""}
-        />
+        <Viewer3DComponent combinedChoice={lead.ring_model_id || ""} />
 
         <section className="card">
           <div className="fields">
@@ -100,7 +101,7 @@ export default async function LeadDetailPage({
                     {JSON.stringify(lead.diamond_info, null, 2)}
                   </pre>
                 ) : (
-                  "-"
+                  "Intermediate (Diamond Info not selected yet)"
                 )
               }
             />
@@ -108,6 +109,9 @@ export default async function LeadDetailPage({
             <Field label="Metal Color" value={lead.metal_color} />
             <Field label="Price Setting" value={lead.price_setting} />
             <Field label="Total Price" value={lead.total_price} />
+            <Field label="Origin" value={lead.origin} />
+            <Field label="Consent" value={lead.consent} />
+            <Field label="SMS Consent" value={lead.smsConsent} />
           </div>
         </section>
       </div>
