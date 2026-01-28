@@ -20,6 +20,7 @@ type Lead = {
   origin: string;
   consent: string | null;
   smsConsent: string | null;
+  steps_tracker: any;
 };
 
 async function fetchLead(id: string) {
@@ -112,6 +113,18 @@ export default async function LeadDetailPage({
             <Field label="Origin" value={lead.origin} />
             <Field label="Consent" value={lead.consent} />
             <Field label="SMS Consent" value={lead.smsConsent} />
+            <Field
+              label="Steps Logger"
+              value={
+                lead.steps_tracker ? (
+                  <pre className="pre mono">
+                    {JSON.stringify(lead.steps_tracker, null, 2)}
+                  </pre>
+                ) : (
+                  "-"
+                )
+              }
+            />
           </div>
         </section>
       </div>
