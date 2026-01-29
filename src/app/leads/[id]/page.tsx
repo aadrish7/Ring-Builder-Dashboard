@@ -21,6 +21,8 @@ type Lead = {
   consent: string | null;
   smsConsent: string | null;
   steps_tracker: any;
+  purchase_timeline: string | null;
+  preffered_location: string | null;
 };
 
 async function fetchLead(id: string) {
@@ -101,6 +103,8 @@ export default async function LeadDetailPage({
                   <pre className="pre mono">
                     {JSON.stringify(lead.diamond_info, null, 2)}
                   </pre>
+                ) : lead.preffered_location ? (
+                  "Expert Consultation Form submitted before selecting any diamond info."
                 ) : (
                   "Intermediate (Diamond Info not selected yet)"
                 )
@@ -113,6 +117,8 @@ export default async function LeadDetailPage({
             <Field label="Origin" value={lead.origin} />
             <Field label="Consent" value={lead.consent} />
             <Field label="SMS Consent" value={lead.smsConsent} />
+            <Field label="Preferred Location" value={lead.preffered_location} />
+            <Field label="Timeline of Purchase" value={lead.purchase_timeline} />
             <Field
               label="Steps Logger"
               value={

@@ -19,6 +19,8 @@ type Lead = {
   origin: string;
   consent: string | null;
   smsConsent: string | null;
+  purchase_timeline: string | null;
+  preffered_location: string | null;
 };
 
 type LeadsResponse = {
@@ -82,7 +84,7 @@ export default async function LeadsPage({
   const q = sp?.q ?? "";
 
   const data = await fetchLeads({ q, limit: 50 });
-// console.log(data)
+  // console.log(data)
   return (
     <main className="app">
       <div className="container">
@@ -178,40 +180,62 @@ export default async function LeadsPage({
                     return (
                       <tr key={lead.id} className="row">
                         <td>
-                          <CellLink href={href}>{fmtDate(lead.created_at)}</CellLink>
+                          <CellLink href={href}>
+                            {fmtDate(lead.created_at)}
+                          </CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.customer_name ?? "-"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.customer_name ?? "-"}
+                          </CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.customer_phone_number ?? "-"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.customer_phone_number ?? "-"}
+                          </CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.customer_email ?? "-"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.customer_email ?? "-"}
+                          </CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.ring_model_id ?? "-"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.ring_model_id ?? "-"}
+                          </CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.ring_name ?? "-"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.ring_name ?? "-"}
+                          </CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.metal_color ?? "-"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.metal_color ?? "-"}
+                          </CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.total_price ?? "-"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.total_price ?? "-"}
+                          </CellLink>
                         </td>
                         <td>
                           <CellLink href={href}>{lead.origin ?? "-"}</CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.diamond_info != null ? "Complete" : "Intermediate"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.diamond_info != null
+                              ? "Complete"
+                              : "Intermediate"}
+                          </CellLink>
                         </td>
                         <td>
                           <CellLink href={href}>{lead.consent ?? "-"}</CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.smsConsent ?? "-"}</CellLink>
+                          <CellLink href={href}>
+                            {lead.smsConsent ?? "-"}
+                          </CellLink>
                         </td>
                         <td>
                           <CellLink href={href} mono>
