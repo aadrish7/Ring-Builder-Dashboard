@@ -23,6 +23,7 @@ type Lead = {
   steps_tracker: any;
   purchase_timeline: string | null;
   preffered_location: string | null;
+  campaign_params: any;
 };
 
 async function fetchLead(id: string) {
@@ -125,6 +126,18 @@ export default async function LeadDetailPage({
                 lead.steps_tracker ? (
                   <pre className="pre mono">
                     {JSON.stringify(lead.steps_tracker, null, 2)}
+                  </pre>
+                ) : (
+                  "-"
+                )
+              }
+            />
+            <Field
+              label="Campaign Params"
+              value={
+                lead.campaign_params ? (
+                  <pre className="pre mono">
+                    {JSON.stringify(lead.campaign_params, null, 2)}
                   </pre>
                 ) : (
                   "-"
