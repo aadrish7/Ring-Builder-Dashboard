@@ -1,34 +1,7 @@
+import { fetchLead, Lead, LeadsResponse } from "@/lib/leads";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
-
-type Lead = {
-  id: string;
-  customer_name: string | null;
-  customer_phone_number: string | null;
-  customer_email: string | null;
-  ring_model_id: string | null;
-  ring_name: string | null;
-  diamond_cut: string | null;
-  diamond_info: any;
-  metal_color: string | null;
-  price_setting: string | null;
-  total_price: string | number | null;
-  created_at: string;
-  updated_at: string;
-  origin: string;
-  consent: string | null;
-  smsConsent: string | null;
-  purchase_timeline: string | null;
-  preffered_location: string | null;
-};
-
-type LeadsResponse = {
-  total: number;
-  limit: number;
-  offset: number;
-  leads: Lead[];
-};
 
 async function fetchLeads(params: { q?: string; limit?: number }) {
   const base = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -150,10 +123,8 @@ export default async function LeadsPage({
                     "Ring Name",
                     "Metal",
                     "Total Price",
-                    "Origin",
-                    "Lead Type",
-                    "Consent",
-                    "SMS Consent",
+                    "Steps",
+                    "Campaign",
                     "ID",
                   ].map((h) => (
                     <th key={h} className="th">
@@ -220,22 +191,31 @@ export default async function LeadsPage({
                           </CellLink>
                         </td>
                         <td>
-                          <CellLink href={href}>{lead.origin ?? "-"}</CellLink>
+                          {lead.steps_tracker?.journey?.length ? (
+                            <Link
+                              href={`/leads/${lead.id}/steps`}
+                              className="cellLink"
+                              style={{ textDecoration: "underline" }}
+                            >
+                              View Steps
+                            </Link>
+                          ) : (
+                            <span className="cellLink" style={{ color: "var(--muted)" }}>-</span>
+                          )}
                         </td>
                         <td>
-                          <CellLink href={href}>
-                            {lead.diamond_info != null
-                              ? "Complete"
-                              : "Intermediate"}
-                          </CellLink>
-                        </td>
-                        <td>
-                          <CellLink href={href}>{lead.consent ?? "-"}</CellLink>
-                        </td>
-                        <td>
-                          <CellLink href={href}>
-                            {lead.smsConsent ?? "-"}
-                          </CellLink>
+                          {lead.campaign_params &&
+                          Object.keys(lead.campaign_params).length > 0 ? (
+                            <Link
+                              href={`/leads/${lead.id}/campaign`}
+                              className="cellLink"
+                              style={{ textDecoration: "underline" }}
+                            >
+                              View Params
+                            </Link>
+                          ) : (
+                            <span className="cellLink" style={{ color: "var(--muted)" }}>-</span>
+                          )}
                         </td>
                         <td>
                           <CellLink href={href} mono>

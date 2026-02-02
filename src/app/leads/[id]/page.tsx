@@ -1,46 +1,8 @@
 import Viewer3DComponent from "@/components/Viewer3DComponent/Viewer3DComponent";
+import { fetchLead } from "@/lib/leads";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
-
-type Lead = {
-  id: string;
-  customer_name: string | null;
-  customer_phone_number: string | null;
-  customer_email: string | null;
-  ring_model_id: string | null;
-  ring_name: string | null;
-  diamond_cut: string | null;
-  diamond_info: any;
-  metal_color: string | null;
-  price_setting: string | null;
-  total_price: string | number | null;
-  created_at: string;
-  updated_at: string;
-  origin: string;
-  consent: string | null;
-  smsConsent: string | null;
-  steps_tracker: any;
-  purchase_timeline: string | null;
-  preffered_location: string | null;
-  campaign_params: any;
-};
-
-async function fetchLead(id: string) {
-  const base = process.env.NEXT_PUBLIC_API_BASE_URL;
-  if (!base) throw new Error("NEXT_PUBLIC_API_BASE_URL is not set");
-
-  const url = new URL(`/leads/${id}`, base);
-
-  const res = await fetch(url.toString(), { cache: "no-store" });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Failed to fetch lead: ${res.status} ${text}`);
-  }
-
-  const json = await res.json();
-  return json.lead as Lead;
-}
 
 function fmtDate(iso: string) {
   const d = new Date(iso);
@@ -124,9 +86,9 @@ export default async function LeadDetailPage({
               label="Steps Logger"
               value={
                 lead.steps_tracker ? (
-                  <pre className="pre mono">
-                    {JSON.stringify(lead.steps_tracker, null, 2)}
-                  </pre>
+                  <Link href={`/leads/${lead.id}/steps`} className="cellLink" style={{ textDecoration: 'underline' }}>
+                    View Steps Timeline
+                  </Link>
                 ) : (
                   "-"
                 )
@@ -136,9 +98,9 @@ export default async function LeadDetailPage({
               label="Campaign Params"
               value={
                 lead.campaign_params ? (
-                  <pre className="pre mono">
-                    {JSON.stringify(lead.campaign_params, null, 2)}
-                  </pre>
+                  <Link href={`/leads/${lead.id}/campaign`} className="cellLink" style={{ textDecoration: 'underline' }}>
+                    View Campaign Params
+                  </Link>
                 ) : (
                   "-"
                 )
