@@ -1,4 +1,5 @@
 import { fetchLead } from "@/lib/leads";
+import JsonToggle from "@/components/JsonToggle";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -41,6 +42,9 @@ export default async function LeadCampaignPage({
                   <div className="fieldValue mono">{String(value)}</div>
                 </div>
               ))}
+              <div style={{ padding: 20, borderTop: "1px solid var(--border-soft)" }}>
+                <JsonToggle data={paramsData} title="Full Campaign Data" />
+              </div>
             </div>
           )}
         </section>

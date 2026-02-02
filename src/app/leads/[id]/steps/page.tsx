@@ -1,4 +1,5 @@
 import { fetchLead } from "@/lib/leads";
+import JsonToggle from "@/components/JsonToggle";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -62,6 +63,12 @@ export default async function LeadStepsPage({
                         <pre className="pre mono" style={{ maxHeight: 100, overflow: 'auto' }}>
                           {JSON.stringify(step.details, null, 2)}
                         </pre>
+                        {step.eventType === 'price_update' && step.modelId && (
+                          <div style={{ marginTop: 8, fontSize: 12, color: 'var(--muted)' }}>
+                            <span style={{ fontWeight: 600 }}>Updated Model ID:</span> <span className="mono">{step.modelId}</span>
+                          </div>
+                        )}
+                        <JsonToggle data={step} title="Full Step Data" />
                       </td>
                     </tr>
                   ))}
