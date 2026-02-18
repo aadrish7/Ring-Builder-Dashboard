@@ -7,7 +7,7 @@ async function fetchLeads(params: { q?: string; limit?: number }) {
   const base = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!base) throw new Error("NEXT_PUBLIC_API_BASE_URL is not set");
 
-  const url = new URL("/leads", base);
+  const url = new URL("/engagement/leads", base);
   url.searchParams.set("limit", String(params.limit ?? 50));
   url.searchParams.set("offset", "0");
   if (params.q?.trim()) url.searchParams.set("q", params.q.trim());
@@ -116,6 +116,7 @@ export default async function LeadsPage({
                 <tr>
                   {[
                     "Created",
+                    "Shop",
                     "Customer",
                     "Phone",
                     "Email",
@@ -138,7 +139,7 @@ export default async function LeadsPage({
                 {data.leads.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={9}
+                      colSpan={12}
                       className="td"
                       style={{ padding: 18, color: "var(--muted)" }}
                     >
@@ -153,6 +154,11 @@ export default async function LeadsPage({
                         <td>
                           <CellLink href={href}>
                             {fmtDate(lead.created_at)}
+                          </CellLink>
+                        </td>
+                        <td>
+                          <CellLink href={href}>
+                            {lead.shop_name ?? "-"}
                           </CellLink>
                         </td>
                         <td>

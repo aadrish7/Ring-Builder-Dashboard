@@ -1,5 +1,6 @@
 export type Lead = {
   id: string;
+  shop_name: string | null;
   customer_name: string | null;
   customer_phone_number: string | null;
   customer_email: string | null;
@@ -13,10 +14,10 @@ export type Lead = {
   created_at: string;
   updated_at: string;
   origin?: string;
-  consent?: string | null;
-  smsConsent?: string | null;
+  consent?: boolean | null;
+  sms_consent?: boolean | null;
   purchase_timeline?: string | null;
-  preffered_location?: string | null;
+  preferred_location?: string | null;
   steps_tracker?: {
     journey: Array<{
       price: number;
@@ -52,7 +53,7 @@ export async function fetchLead(id: string): Promise<Lead> {
   const base = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!base) throw new Error("NEXT_PUBLIC_API_BASE_URL is not set");
 
-  const url = new URL(`/leads/${id}`, base);
+  const url = new URL(`/engagement/leads/${id}`, base);
 
   const res = await fetch(url.toString(), { cache: "no-store" });
   if (!res.ok) {

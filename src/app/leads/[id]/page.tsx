@@ -50,6 +50,7 @@ export default async function LeadDetailPage({
           <div className="fields">
             <Field label="Created" value={fmtDate(lead.created_at)} />
             <Field label="Updated" value={fmtDate(lead.updated_at)} />
+            <Field label="Shop" value={lead.shop_name} />
 
             <Field label="Customer Name" value={lead.customer_name} />
             <Field label="Phone Number" value={lead.customer_phone_number} />
@@ -66,7 +67,7 @@ export default async function LeadDetailPage({
                   <pre className="pre mono">
                     {JSON.stringify(lead.diamond_info, null, 2)}
                   </pre>
-                ) : lead.preffered_location ? (
+                ) : lead.preferred_location ? (
                   "Expert Consultation Form submitted before selecting any diamond info."
                 ) : (
                   "Intermediate (Diamond Info not selected yet)"
@@ -77,10 +78,10 @@ export default async function LeadDetailPage({
             <Field label="Metal Color" value={lead.metal_color} />
             <Field label="Price Setting" value={lead.price_setting} />
             <Field label="Total Price" value={lead.total_price} />
-            <Field label="Origin" value={lead.origin} />
+            {/* <Field label="Origin" value={lead.origin} /> */}
             <Field label="Consent" value={lead.consent} />
-            <Field label="SMS Consent" value={lead.smsConsent} />
-            <Field label="Preferred Location" value={lead.preffered_location} />
+            <Field label="SMS Consent" value={lead.sms_consent} />
+            <Field label="Preferred Location" value={lead.preferred_location} />
             <Field label="Timeline of Purchase" value={lead.purchase_timeline} />
             <Field
               label="Steps Logger"
