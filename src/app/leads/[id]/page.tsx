@@ -55,7 +55,7 @@ export default async function LeadDetailPage({
             <Field label="Customer Name" value={lead.customer_name} />
             <Field label="Phone Number" value={lead.customer_phone_number} />
             <Field label="Email" value={lead.customer_email} />
-
+{/*  */}
             <Field label="Ring Model ID" value={lead.ring_model_id} />
             <Field label="Ring Name" value={lead.ring_name} />
 
