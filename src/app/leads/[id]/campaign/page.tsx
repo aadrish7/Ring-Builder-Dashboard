@@ -22,7 +22,7 @@ export default async function LeadCampaignPage({
         <header className="topbar">
           <div>
             <h1 className="title">Campaign Parameters</h1>
-            <p className="subtitle mono">{id}</p>
+            <p className="subtitle mono" style={{ fontSize: 12 }}>{id}</p>
           </div>
           <Link href={`/leads/${id}`} className="btn">
             ← Back to Lead
@@ -31,7 +31,7 @@ export default async function LeadCampaignPage({
 
         <section className="card">
           {entries.length === 0 ? (
-            <div style={{ padding: 20, color: "var(--muted)" }}>
+            <div style={{ padding: "40px 20px", textAlign: "center", color: "var(--muted)" }}>
               No campaign parameters found.
             </div>
           ) : (

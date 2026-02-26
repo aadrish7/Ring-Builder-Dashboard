@@ -25,8 +25,8 @@ export default async function LeadStepsPage({
       <div className="container">
         <header className="topbar">
           <div>
-            <h1 className="title">Lead Steps Tracker</h1>
-            <p className="subtitle mono">{id}</p>
+            <h1 className="title">Steps Tracker</h1>
+            <p className="subtitle mono" style={{ fontSize: 12 }}>{id}</p>
           </div>
           <Link href={`/leads/${id}`} className="btn">
             ← Back to Lead
@@ -35,8 +35,8 @@ export default async function LeadStepsPage({
 
         <section className="card">
           {journey.length === 0 ? (
-            <div style={{ padding: 20, color: "var(--muted)" }}>
-              No steps recorded.
+            <div style={{ padding: "40px 20px", textAlign: "center", color: "var(--muted)" }}>
+              No steps recorded for this lead.
             </div>
           ) : (
             <div className="tableWrap">
