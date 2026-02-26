@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Leads Dashboard",
-  description: "Ring Builder Leads UI",
+  title: "Engagement Dashboard",
+  description: "Useryze Ring Builder Leads",
+  icons: { icon: "/fav.png" },
 };
 
 import AuthGuard from "@/components/AuthGuard";
