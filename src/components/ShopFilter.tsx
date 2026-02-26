@@ -25,8 +25,7 @@ export default function ShopFilter({
     <select
       value={currentShop}
       onChange={handleChange}
-      className="input"
-      style={{ maxWidth: 220, flex: "none" }}
+      className="input shopSelect"
     >
       <option value="">All Shops</option>
       {shops.map((s) => (

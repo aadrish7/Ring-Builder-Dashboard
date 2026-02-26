@@ -1,14 +1,9 @@
-import Sidebar from "@/components/Sidebar";
+import AppShellClient from "@/components/AppShellClient";
 
 export default function LeadsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="appShell">
-      <Sidebar />
-      <div className="appMain">{children}</div>
-    </div>
-  );
+  return <AppShellClient>{children}</AppShellClient>;
 }
