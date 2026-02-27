@@ -122,8 +122,8 @@ export default async function LeadsPage({
         <div className="statsRow">
           <div className="statCard">
             <div className="statLabel">Total Leads</div>
-            <div className="statValue">{data.total}</div>
-            <div className="statMeta">all time</div>
+            <div className="statValue">{selectedShop ? leads.length : data.total}</div>
+            <div className="statMeta">{selectedShop ? "in selected shop" : "all time"}</div>
           </div>
           <div className="statCard">
             <div className="statLabel">Leads Today</div>
