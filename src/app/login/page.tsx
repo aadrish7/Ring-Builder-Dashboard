@@ -15,22 +15,41 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
 
-    // Simulate network delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 500))
-
     try {
-      const adminUser = process.env.NEXT_PUBLIC_ADMIN_USERNAME
-      const adminPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD
+      const base = process.env.NEXT_PUBLIC_API_BASE_URL
+      if (!base) throw new Error('API base URL not configured')
 
-      if (username === adminUser && password === adminPass) {
-        localStorage.setItem('is_admin_authenticated', 'true')
-        router.push('/')
-        router.refresh()
-      } else {
-        setError('Invalid credentials')
+      const res = await fetch(`${base}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      })
+
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        setError(json.error ?? 'Invalid credentials')
         setLoading(false)
+        return
       }
-    } catch {
+
+      const { token, role, shop } = await res.json()
+
+      // Store token and user info in cookies (accessible by server components)
+      const maxAge = 60 * 60 * 24 * 7 // 7 days
+      document.cookie = `auth_token=${token}; path=/; max-age=${maxAge}; SameSite=Lax`
+      document.cookie = `auth_role=${role}; path=/; max-age=${maxAge}; SameSite=Lax`
+      document.cookie = `auth_shop_name=${encodeURIComponent(shop?.name ?? '')}; path=/; max-age=${maxAge}; SameSite=Lax`
+
+      // Also store in localStorage for client components
+      localStorage.setItem('auth_user', JSON.stringify({
+        role,
+        shopName: shop?.name ?? null,
+        shopId: shop?.id ?? null,
+      }))
+
+      router.push('/leads')
+      router.refresh()
+    } catch (err) {
       setError('Something went wrong. Try again.')
       setLoading(false)
     }

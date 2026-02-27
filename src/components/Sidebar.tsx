@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const navItems = [
   {
@@ -29,6 +30,19 @@ export default function Sidebar({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [shopName, setShopName] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('auth_user')
+      if (raw) {
+        const user = JSON.parse(raw)
+        setShopName(user.shopName ?? null)
+      }
+    } catch {
+      // ignore
+    }
+  }, [])
 
   function isActive(href: string, exact: boolean) {
     if (exact) return pathname === href;
@@ -36,7 +50,12 @@ export default function Sidebar({
   }
 
   function handleSignOut() {
-    localStorage.removeItem("is_admin_authenticated");
+    // Clear cookies
+    document.cookie = 'auth_token=; path=/; max-age=0'
+    document.cookie = 'auth_role=; path=/; max-age=0'
+    document.cookie = 'auth_shop_name=; path=/; max-age=0'
+    // Clear localStorage
+    localStorage.removeItem('auth_user')
     router.push("/login");
   }
 
@@ -78,6 +97,11 @@ export default function Sidebar({
 
       {/* Footer */}
       <div className="sidebarFooter">
+        {shopName && (
+          <div style={{ padding: '0 12px 12px', fontSize: 12, color: 'var(--muted)' }}>
+            {shopName}
+          </div>
+        )}
         <button className="sidebarLink" onClick={handleSignOut}>
           <span className="sidebarIcon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

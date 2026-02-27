@@ -1,5 +1,6 @@
 import Viewer3DComponent from "@/components/Viewer3DComponent/Viewer3DComponent";
 import { fetchLead } from "@/lib/leads";
+import { getAuthHeaders } from "@/lib/auth";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -54,7 +55,8 @@ export default async function LeadDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const lead = await fetchLead(id);
+  const authHeaders = await getAuthHeaders();
+  const lead = await fetchLead(id, authHeaders);
 
   return (
     <main className="app">

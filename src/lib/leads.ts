@@ -49,13 +49,37 @@ export type LeadsResponse = {
   leads: Lead[];
 };
 
-export async function fetchLead(id: string): Promise<Lead> {
+export async function fetchLeads(
+  params: { q?: string; limit?: number },
+  headers: Record<string, string> = {}
+): Promise<LeadsResponse> {
+  const base = process.env.NEXT_PUBLIC_API_BASE_URL;
+  if (!base) throw new Error("NEXT_PUBLIC_API_BASE_URL is not set");
+
+  const url = new URL("/engagement/leads", base);
+  url.searchParams.set("limit", String(params.limit ?? 50));
+  url.searchParams.set("offset", "0");
+  if (params.q?.trim()) url.searchParams.set("q", params.q.trim());
+
+  const res = await fetch(url.toString(), { cache: "no-store", headers });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to fetch leads: ${res.status} ${text}`);
+  }
+
+  return (await res.json()) as LeadsResponse;
+}
+
+export async function fetchLead(
+  id: string,
+  headers: Record<string, string> = {}
+): Promise<Lead> {
   const base = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!base) throw new Error("NEXT_PUBLIC_API_BASE_URL is not set");
 
   const url = new URL(`/engagement/leads/${id}`, base);
 
-  const res = await fetch(url.toString(), { cache: "no-store" });
+  const res = await fetch(url.toString(), { cache: "no-store", headers });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`Failed to fetch lead: ${res.status} ${text}`);

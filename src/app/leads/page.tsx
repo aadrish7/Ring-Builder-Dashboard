@@ -1,26 +1,9 @@
-import { LeadsResponse } from "@/lib/leads";
+import { fetchLeads } from "@/lib/leads";
+import { getAuthHeaders, getAuthRole } from "@/lib/auth";
 import Link from "next/link";
 import ShopFilter from "@/components/ShopFilter";
 
 export const dynamic = "force-dynamic";
-
-async function fetchLeads(params: { q?: string; limit?: number }) {
-  const base = process.env.NEXT_PUBLIC_API_BASE_URL;
-  if (!base) throw new Error("NEXT_PUBLIC_API_BASE_URL is not set");
-
-  const url = new URL("/engagement/leads", base);
-  url.searchParams.set("limit", String(params.limit ?? 50));
-  url.searchParams.set("offset", "0");
-  if (params.q?.trim()) url.searchParams.set("q", params.q.trim());
-
-  const res = await fetch(url.toString(), { cache: "no-store" });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Failed to fetch leads: ${res.status} ${text}`);
-  }
-
-  return (await res.json()) as LeadsResponse;
-}
 
 function fmtDate(iso: string) {
   const d = new Date(iso);
@@ -94,17 +77,18 @@ export default async function LeadsPage({
   const q = sp?.q ?? "";
   const selectedShop = sp?.shop ?? "";
 
-  const data = await fetchLeads({ q, limit: 50 });
+  const [authHeaders, role] = await Promise.all([getAuthHeaders(), getAuthRole()]);
+  const isSuperAdmin = role === 'super_admin';
 
-  // Unique shops from all fetched leads (for the dropdown)
-  const allShops = [
-    ...new Set(
-      data.leads.map((l) => l.shop_name).filter(Boolean) as string[]
-    ),
-  ].sort();
+  const data = await fetchLeads({ q, limit: 50 }, authHeaders);
 
-  // Apply shop filter
-  const leads = selectedShop
+  // Unique shops from all fetched leads (for the dropdown — super_admin only)
+  const allShops = isSuperAdmin
+    ? [...new Set(data.leads.map((l) => l.shop_name).filter(Boolean) as string[])].sort()
+    : [];
+
+  // Apply shop filter (super_admin client-side; admin sees only their shop already)
+  const leads = isSuperAdmin && selectedShop
     ? data.leads.filter((l) => l.shop_name === selectedShop)
     : data.leads;
 
@@ -160,11 +144,13 @@ export default async function LeadsPage({
 
         {/* ── Filters ── */}
         <form method="GET" action="/leads" className="searchRow">
-          <ShopFilter
-            shops={allShops}
-            currentShop={selectedShop}
-            currentQ={q}
-          />
+          {isSuperAdmin && (
+            <ShopFilter
+              shops={allShops}
+              currentShop={selectedShop}
+              currentQ={q}
+            />
+          )}
           <input
             className="input"
             name="q"

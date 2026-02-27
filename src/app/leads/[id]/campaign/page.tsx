@@ -1,4 +1,5 @@
 import { fetchLead } from "@/lib/leads";
+import { getAuthHeaders } from "@/lib/auth";
 import JsonToggle from "@/components/JsonToggle";
 import Link from "next/link";
 
@@ -10,7 +11,8 @@ export default async function LeadCampaignPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const lead = await fetchLead(id);
+  const authHeaders = await getAuthHeaders();
+  const lead = await fetchLead(id, authHeaders);
   const paramsData = lead.campaign_params || {};
 
   // Convert object to array of [key, value] for easier mapping
