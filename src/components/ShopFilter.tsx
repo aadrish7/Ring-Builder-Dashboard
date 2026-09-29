@@ -6,10 +6,12 @@ export default function ShopFilter({
   shops,
   currentShop,
   currentQ,
+  basePath = "/leads",
 }: {
   shops: string[];
   currentShop: string;
   currentQ: string;
+  basePath?: string;
 }) {
   const router = useRouter();
 
@@ -18,7 +20,7 @@ export default function ShopFilter({
     if (currentQ) params.set("q", currentQ);
     if (e.target.value) params.set("shop", e.target.value);
     const qs = params.toString();
-    router.push(qs ? `/leads?${qs}` : "/leads");
+    router.push(qs ? `${basePath}?${qs}` : basePath);
   }
 
   return (

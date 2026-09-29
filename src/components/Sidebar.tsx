@@ -19,6 +19,17 @@ const navItems = [
       </svg>
     ),
   },
+  {
+    label: "Sessions",
+    href: "/sessions",
+    exact: false,
+    superAdminOnly: true,
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    ),
+  },
 ];
 
 export default function Sidebar({
@@ -31,6 +42,7 @@ export default function Sidebar({
   const pathname = usePathname();
   const router = useRouter();
   const [shopName, setShopName] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -38,6 +50,7 @@ export default function Sidebar({
       if (raw) {
         const user = JSON.parse(raw)
         setShopName(user.shopName ?? null)
+        setRole(user.role ?? null)
       }
     } catch {
       // ignore
@@ -82,7 +95,9 @@ export default function Sidebar({
       {/* Navigation */}
       <nav className="sidebarNav">
         <div className="sidebarSectionLabel">Menu</div>
-        {navItems.map((item) => (
+        {navItems
+          .filter((item) => !item.superAdminOnly || role === "super_admin")
+          .map((item) => (
           <Link
             key={item.href}
             href={item.href}
