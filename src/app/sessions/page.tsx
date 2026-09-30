@@ -2,6 +2,7 @@ import { fetchSessions, fetchSessionStats } from "@/lib/sessions";
 import { getAuthHeaders, getAuthRole } from "@/lib/auth";
 import Link from "next/link";
 import ShopFilter from "@/components/ShopFilter";
+import ReferrerToggle from "@/components/ReferrerToggle";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,15 @@ function fmtDate(iso: string) {
 function fmtRate(converted: number, total: number) {
   if (!total) return "—";
   return `${((converted / total) * 100).toFixed(1)}%`;
+}
+
+function utmSourceFromReferrer(referrer: string | null) {
+  if (!referrer) return "";
+  try {
+    return new URL(referrer).searchParams.get("utm_source") ?? "";
+  } catch {
+    return "";
+  }
 }
 
 function CellLink({
@@ -152,6 +162,7 @@ export default async function SessionsPage({
                 <col style={{ width: 150 }} />
                 <col style={{ width: 110 }} />
                 <col style={{ width: 200 }} />
+                <col style={{ width: 130 }} />
                 <col style={{ width: 170 }} />
                 <col style={{ width: 80 }} />
                 <col style={{ width: 130 }} />
@@ -166,6 +177,7 @@ export default async function SessionsPage({
                     "Shop",
                     "Device",
                     "Referrer",
+                    "UTM Source",
                     "Entry Model ID",
                     "Events",
                     "Status",
@@ -183,7 +195,7 @@ export default async function SessionsPage({
                 {sessions.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={9}
+                      colSpan={10}
                       style={{
                         padding: "40px 20px",
                         textAlign: "center",
@@ -215,8 +227,11 @@ export default async function SessionsPage({
                           </CellLink>
                         </td>
                         <td className="td">
+                          <ReferrerToggle referrer={session.referrer} />
+                        </td>
+                        <td className="td">
                           <CellLink href={href}>
-                            {session.referrer ?? ""}
+                            {utmSourceFromReferrer(session.referrer)}
                           </CellLink>
                         </td>
                         <td className="td">
